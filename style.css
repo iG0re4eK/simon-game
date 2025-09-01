@@ -146,3 +146,33 @@ body {
     transform: scale(1.2) rotate(360deg);
   }
 }
+
+@media (max-width: 768px) {
+  .square {
+    width: 175px;
+    height: 175px;
+    border-bottom: 8px solid black;
+  }
+
+  .circle-menu {
+    border-bottom: 8px solid black;
+    width: 200px;
+    height: 200px;
+  }
+
+  .counter {
+    font-size: 2rem;
+  }
+
+  @keyframes press {
+    0%,
+    100% {
+      transform: translateY(0);
+      border-bottom: 8px solid black;
+    }
+    50% {
+      transform: translateY(5px);
+      border-bottom: 3px solid black;
+    }
+  }
+}
