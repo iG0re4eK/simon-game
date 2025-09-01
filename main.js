@@ -12,10 +12,23 @@ let time = 500;
 let isShowingSequence = false;
 let gameActive = false;
 
+const sounds = {
+  green: new Audio("./sounds/sd_1.wav"),
+  red: new Audio("./sounds/sd_2.wav"),
+  yellow: new Audio("./sounds/sd_3.wav"),
+  blue: new Audio("./sounds/sd_4.wav"),
+};
+
 squares.forEach((squaresElement, index) => {
   squaresElement.style.backgroundColor = colors[index];
   squaresElement.setAttribute("id", `${index}`);
 });
+
+function playSound(colorIndex) {
+  const sound = sounds[colors[colorIndex]];
+  sound.currentTime = 0;
+  sound.play();
+}
 
 function randomId(length) {
   return Math.floor(Math.random() * length);
@@ -34,10 +47,11 @@ function game() {
       const squareId = moves[i];
       const square = squares[squareId];
 
-      square.style.animation = `press ${time / 1000}s ease`;
+      square.classList.add("pressed");
+      playSound(squareId);
 
       square.addEventListener("animationend", function handler() {
-        square.style.animation = "";
+        square.classList.remove("pressed");
         square.removeEventListener("animationend", handler);
 
         if (i === moves.length - 1) {
@@ -56,13 +70,16 @@ container.addEventListener("click", (event) => {
     const clickedId = Number(clickObj.getAttribute("id"));
 
     if (clickedId !== moves[step]) {
+      clickObj.style.animation = `error-anim 0.2s ease`;
       gameOver();
       return;
     }
 
-    clickObj.style.animation = `press ${time / 1000}s ease`;
+    clickObj.classList.add("pressed");
+    playSound(clickedId);
+
     clickObj.addEventListener("animationend", function handler() {
-      clickObj.style.animation = "";
+      clickObj.classList.remove("pressed");
       clickObj.removeEventListener("animationend", handler);
     });
     step++;
@@ -77,7 +94,9 @@ container.addEventListener("click", (event) => {
 });
 
 function gameOver() {
-  alert("Вы проиграли! Начинаем заново.");
+  const sound = new Audio("./sounds/gameOver.wav");
+  sound.currentTime = 0;
+  sound.play();
   counter.textContent = `Итог: ${count}`;
   restartGame.style.display = "block";
   gameActive = false;
@@ -88,7 +107,11 @@ function resetGame() {
   step = 0;
   count = 0;
   isShowingSequence = false;
-  counter.textContent = "0";
+  counter.textContent = count;
+
+  squares.forEach((square) => {
+    square.style.animation = "";
+  });
 }
 
 function initGame() {
@@ -109,5 +132,3 @@ startGame.addEventListener("click", () => {
 restartGame.addEventListener("click", () => {
   initGame();
 });
-
-initGame();

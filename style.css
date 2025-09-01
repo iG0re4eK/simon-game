@@ -43,6 +43,20 @@ body {
   }
 }
 
+@keyframes light {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.6);
+  }
+}
+
+.square.pressed {
+  animation: press 0.5s ease, light 0.5s ease;
+}
+
 .square:nth-of-type(1) {
   border-top-left-radius: 90%;
   border-top-right-radius: 10%;
@@ -102,6 +116,7 @@ body {
   text-transform: uppercase;
   transition: 0.2s ease;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .start-btn:hover {
@@ -113,12 +128,15 @@ body {
 }
 
 .counter {
+  display: none;
+  font-weight: 600;
   font-size: 2.5rem;
   color: white;
   user-select: none;
 }
 
 .restart-btn {
+  display: none;
   cursor: pointer;
   width: 40px;
   height: 40px;
@@ -145,6 +163,16 @@ body {
   }
   to {
     transform: scale(1.2) rotate(360deg);
+  }
+}
+
+@keyframes error-anim {
+  0%,
+  100% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
   }
 }
 
@@ -225,14 +253,14 @@ body {
 /* Планшеты в портрете (481px - 767px) */
 @media (max-width: 767px) and (min-width: 481px) {
   .square {
-    width: 160px;
-    height: 160px;
+    width: 150px;
+    height: 150px;
     border-bottom: 8px solid black;
   }
 
   .circle-menu {
-    width: 180px;
-    height: 180px;
+    width: 170px;
+    height: 170px;
     border-bottom: 8px solid black;
   }
 
